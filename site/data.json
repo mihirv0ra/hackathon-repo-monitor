@@ -1,0 +1,1013 @@
+{
+  "generated_at": "2026-10-22T13:39:58+00:00",
+  "repositories": [
+    {
+      "name": "adai26-team-001",
+      "full_name": "CommunityHackathons/adai26-team-001",
+      "url": "https://github.com/CommunityHackathons/adai26-team-001",
+      "description": "",
+      "private": true,
+      "archived": false,
+      "fork": false,
+      "parent": null,
+      "default_branch": "main",
+      "forks_count": 0,
+      "open_issues_count": 1,
+      "created_at": "2026-10-20T03:34:24Z",
+      "pushed_at": "2026-10-20T03:34:25Z",
+      "branches": [],
+      "commits": [],
+      "recent_totals": {
+        "additions": 0,
+        "deletions": 0,
+        "changed_files": 0
+      },
+      "error": null
+    },
+    {
+      "name": "adai26-team-002",
+      "full_name": "CommunityHackathons/adai26-team-002",
+      "url": "https://github.com/CommunityHackathons/adai26-team-002",
+      "description": "",
+      "private": true,
+      "archived": false,
+      "fork": false,
+      "parent": null,
+      "default_branch": "main",
+      "forks_count": 0,
+      "open_issues_count": 1,
+      "created_at": "2026-10-20T03:46:23Z",
+      "pushed_at": "2026-10-20T03:46:25Z",
+      "branches": [],
+      "commits": [],
+      "recent_totals": {
+        "additions": 0,
+        "deletions": 0,
+        "changed_files": 0
+      },
+      "error": null
+    },
+    {
+      "name": "adai26-team-003",
+      "full_name": "CommunityHackathons/adai26-team-003",
+      "url": "https://github.com/CommunityHackathons/adai26-team-003",
+      "description": "",
+      "private": true,
+      "archived": false,
+      "fork": false,
+      "parent": null,
+      "default_branch": "main",
+      "forks_count": 0,
+      "open_issues_count": 1,
+      "created_at": "2026-10-20T03:46:57Z",
+      "pushed_at": "2026-10-21T14:34:10Z",
+      "branches": [
+        {
+          "name": "main",
+          "sha": "d4c5670",
+          "protected": false
+        }
+      ],
+      "commits": [
+        {
+          "sha": "d4c5670",
+          "url": "https://github.com/CommunityHackathons/adai26-team-003/commit/d4c5670eec77cb306df49c51a5c0b60cd17302f3",
+          "message": "Update README.md",
+          "author": "Raul Rodriguez Mesia",
+          "date": "2026-10-21T14:34:09Z",
+          "additions": 3,
+          "deletions": 0,
+          "changed_files": 1
+        },
+        {
+          "sha": "8f4b65e",
+          "url": "https://github.com/CommunityHackathons/adai26-team-003/commit/8f4b65ecd9ecdd1c2bf5084aa65667a33b9ae79b",
+          "message": "docs: complete fixes for README.md video (context-path, H2 scope, executionProof propagation)",
+          "author": "raulrodriguezmesia@gmail.com",
+          "date": "2026-10-21T09:22:55Z",
+          "additions": 70,
+          "deletions": 4,
+          "changed_files": 4
+        },
+        {
+          "sha": "80e5455",
+          "url": "https://github.com/CommunityHackathons/adai26-team-003/commit/80e5455a02a986de133f9db376774517fdc32205",
+          "message": "docs: complete update README.md for All Day AI 2026 Track SECURE + build/config fixes",
+          "author": "raulrodriguezmesia@gmail.com",
+          "date": "2026-10-21T05:17:15Z",
+          "additions": 917,
+          "deletions": 220,
+          "changed_files": 5
+        },
+        {
+          "sha": "a181839",
+          "url": "https://github.com/CommunityHackathons/adai26-team-003/commit/a181839a48774c82ed97e4b902943f6519976469",
+          "message": "test(security): add unit tests for ZeroHallucinationValidator guardrails",
+          "author": "raulrodriguezmesia@gmail.com",
+          "date": "2026-10-21T04:41:28Z",
+          "additions": 91,
+          "deletions": 0,
+          "changed_files": 1
+        },
+        {
+          "sha": "f865a8e",
+          "url": "https://github.com/CommunityHackathons/adai26-team-003/commit/f865a8e31db45ad78c2002314e0f28190f2e2655",
+          "message": "feat(security): add ZeroHallucinationValidator + executionProof for adai26 SECURE track",
+          "author": "raulrodriguezmesia@gmail.com",
+          "date": "2026-10-21T02:55:14Z",
+          "additions": 228,
+          "deletions": 11,
+          "changed_files": 6
+        },
+        {
+          "sha": "5e85e72",
+          "url": "https://github.com/CommunityHackathons/adai26-team-003/commit/5e85e72d70b406f8224d363a810a9d5549970b57",
+          "message": "fix: prevent MCP agent crash-loop for video recording (stdio requires interactive terminal)",
+          "author": "raulrodriguezmesia@gmail.com",
+          "date": "2026-10-19T02:23:28Z",
+          "additions": 1,
+          "deletions": 0,
+          "changed_files": 1
+        },
+        {
+          "sha": "5c12483",
+          "url": "https://github.com/CommunityHackathons/adai26-team-003/commit/5c124837b7927bba4b4e33af1cc2c1140c10e508",
+          "message": "fix: enable stdin_open and tty for MCP agent stdio transport in Docker",
+          "author": "raulrodriguezmesia@gmail.com",
+          "date": "2026-10-18T05:54:16Z",
+          "additions": 2,
+          "deletions": 0,
+          "changed_files": 1
+        },
+        {
+          "sha": "316a7bd",
+          "url": "https://github.com/CommunityHackathons/adai26-team-003/commit/316a7bd96712ae6c1cd88f76f0f5315ac9739ec3",
+          "message": "fix: resolve executable JAR repackaging, env_file injection and pin MCP SDK version",
+          "author": "raulrodriguezmesia@gmail.com",
+          "date": "2026-10-18T05:50:59Z",
+          "additions": 172,
+          "deletions": 135,
+          "changed_files": 9
+        },
+        {
+          "sha": "91e2644",
+          "url": "https://github.com/CommunityHackathons/adai26-team-003/commit/91e264427c0c6cd9b5aa9bc16800e5920accae9c",
+          "message": "feat: initial commit for FinGuard Agentic Treasury Core",
+          "author": "raulrodriguezmesia@gmail.com",
+          "date": "2026-10-18T03:33:42Z",
+          "additions": 3370,
+          "deletions": 0,
+          "changed_files": 25
+        }
+      ],
+      "recent_totals": {
+        "additions": 4854,
+        "deletions": 370,
+        "changed_files": 53
+      },
+      "error": null
+    },
+    {
+      "name": "adai26-team-004",
+      "full_name": "CommunityHackathons/adai26-team-004",
+      "url": "https://github.com/CommunityHackathons/adai26-team-004",
+      "description": "",
+      "private": true,
+      "archived": false,
+      "fork": false,
+      "parent": null,
+      "default_branch": "main",
+      "forks_count": 0,
+      "open_issues_count": 1,
+      "created_at": "2026-10-20T03:47:33Z",
+      "pushed_at": "2026-10-20T03:47:34Z",
+      "branches": [],
+      "commits": [],
+      "recent_totals": {
+        "additions": 0,
+        "deletions": 0,
+        "changed_files": 0
+      },
+      "error": null
+    },
+    {
+      "name": "adai26-team-005",
+      "full_name": "CommunityHackathons/adai26-team-005",
+      "url": "https://github.com/CommunityHackathons/adai26-team-005",
+      "description": "",
+      "private": true,
+      "archived": false,
+      "fork": false,
+      "parent": null,
+      "default_branch": "main",
+      "forks_count": 0,
+      "open_issues_count": 0,
+      "created_at": "2026-10-20T03:48:08Z",
+      "pushed_at": "2026-10-20T03:48:09Z",
+      "branches": [],
+      "commits": [],
+      "recent_totals": {
+        "additions": 0,
+        "deletions": 0,
+        "changed_files": 0
+      },
+      "error": null
+    },
+    {
+      "name": "adai26-team-006",
+      "full_name": "CommunityHackathons/adai26-team-006",
+      "url": "https://github.com/CommunityHackathons/adai26-team-006",
+      "description": "",
+      "private": true,
+      "archived": false,
+      "fork": false,
+      "parent": null,
+      "default_branch": "main",
+      "forks_count": 0,
+      "open_issues_count": 0,
+      "created_at": "2026-10-20T03:48:43Z",
+      "pushed_at": "2026-10-20T03:48:45Z",
+      "branches": [],
+      "commits": [],
+      "recent_totals": {
+        "additions": 0,
+        "deletions": 0,
+        "changed_files": 0
+      },
+      "error": null
+    },
+    {
+      "name": "adai26-team-007",
+      "full_name": "CommunityHackathons/adai26-team-007",
+      "url": "https://github.com/CommunityHackathons/adai26-team-007",
+      "description": "",
+      "private": true,
+      "archived": false,
+      "fork": false,
+      "parent": null,
+      "default_branch": "main",
+      "forks_count": 0,
+      "open_issues_count": 0,
+      "created_at": "2026-10-20T03:49:18Z",
+      "pushed_at": "2026-10-20T03:49:19Z",
+      "branches": [],
+      "commits": [],
+      "recent_totals": {
+        "additions": 0,
+        "deletions": 0,
+        "changed_files": 0
+      },
+      "error": null
+    },
+    {
+      "name": "adai26-team-008",
+      "full_name": "CommunityHackathons/adai26-team-008",
+      "url": "https://github.com/CommunityHackathons/adai26-team-008",
+      "description": "",
+      "private": true,
+      "archived": false,
+      "fork": false,
+      "parent": null,
+      "default_branch": "main",
+      "forks_count": 0,
+      "open_issues_count": 0,
+      "created_at": "2026-10-20T04:06:24Z",
+      "pushed_at": "2026-10-20T04:06:25Z",
+      "branches": [],
+      "commits": [],
+      "recent_totals": {
+        "additions": 0,
+        "deletions": 0,
+        "changed_files": 0
+      },
+      "error": null
+    },
+    {
+      "name": "adai26-team-009-01",
+      "full_name": "CommunityHackathons/adai26-team-009-01",
+      "url": "https://github.com/CommunityHackathons/adai26-team-009-01",
+      "description": "",
+      "private": true,
+      "archived": false,
+      "fork": false,
+      "parent": null,
+      "default_branch": "main",
+      "forks_count": 0,
+      "open_issues_count": 0,
+      "created_at": "2026-10-20T04:06:59Z",
+      "pushed_at": "2026-10-20T04:07:01Z",
+      "branches": [],
+      "commits": [],
+      "recent_totals": {
+        "additions": 0,
+        "deletions": 0,
+        "changed_files": 0
+      },
+      "error": null
+    },
+    {
+      "name": "adai26-team-009-02",
+      "full_name": "CommunityHackathons/adai26-team-009-02",
+      "url": "https://github.com/CommunityHackathons/adai26-team-009-02",
+      "description": "",
+      "private": true,
+      "archived": false,
+      "fork": false,
+      "parent": null,
+      "default_branch": "main",
+      "forks_count": 0,
+      "open_issues_count": 0,
+      "created_at": "2026-10-20T12:47:00Z",
+      "pushed_at": "2026-10-20T12:47:02Z",
+      "branches": [],
+      "commits": [],
+      "recent_totals": {
+        "additions": 0,
+        "deletions": 0,
+        "changed_files": 0
+      },
+      "error": null
+    },
+    {
+      "name": "adai26-team-009-03",
+      "full_name": "CommunityHackathons/adai26-team-009-03",
+      "url": "https://github.com/CommunityHackathons/adai26-team-009-03",
+      "description": "",
+      "private": true,
+      "archived": false,
+      "fork": false,
+      "parent": null,
+      "default_branch": "main",
+      "forks_count": 0,
+      "open_issues_count": 0,
+      "created_at": "2026-10-20T12:47:31Z",
+      "pushed_at": "2026-10-20T12:47:32Z",
+      "branches": [],
+      "commits": [],
+      "recent_totals": {
+        "additions": 0,
+        "deletions": 0,
+        "changed_files": 0
+      },
+      "error": null
+    },
+    {
+      "name": "adai26-team-010",
+      "full_name": "CommunityHackathons/adai26-team-010",
+      "url": "https://github.com/CommunityHackathons/adai26-team-010",
+      "description": "",
+      "private": true,
+      "archived": false,
+      "fork": false,
+      "parent": null,
+      "default_branch": "main",
+      "forks_count": 0,
+      "open_issues_count": 0,
+      "created_at": "2026-10-20T12:48:01Z",
+      "pushed_at": "2026-10-20T12:48:02Z",
+      "branches": [],
+      "commits": [],
+      "recent_totals": {
+        "additions": 0,
+        "deletions": 0,
+        "changed_files": 0
+      },
+      "error": null
+    },
+    {
+      "name": "adai26-team-011",
+      "full_name": "CommunityHackathons/adai26-team-011",
+      "url": "https://github.com/CommunityHackathons/adai26-team-011",
+      "description": "",
+      "private": true,
+      "archived": false,
+      "fork": false,
+      "parent": null,
+      "default_branch": "main",
+      "forks_count": 0,
+      "open_issues_count": 0,
+      "created_at": "2026-10-20T12:48:37Z",
+      "pushed_at": "2026-10-20T12:48:39Z",
+      "branches": [],
+      "commits": [],
+      "recent_totals": {
+        "additions": 0,
+        "deletions": 0,
+        "changed_files": 0
+      },
+      "error": null
+    },
+    {
+      "name": "adai26-team-012",
+      "full_name": "CommunityHackathons/adai26-team-012",
+      "url": "https://github.com/CommunityHackathons/adai26-team-012",
+      "description": "",
+      "private": true,
+      "archived": false,
+      "fork": false,
+      "parent": null,
+      "default_branch": "main",
+      "forks_count": 0,
+      "open_issues_count": 0,
+      "created_at": "2026-10-20T12:49:13Z",
+      "pushed_at": "2026-10-21T01:54:53Z",
+      "branches": [
+        {
+          "name": "main",
+          "sha": "7b4bd78",
+          "protected": false
+        }
+      ],
+      "commits": [
+        {
+          "sha": "7b4bd78",
+          "url": "https://github.com/CommunityHackathons/adai26-team-012/commit/7b4bd7875cc64cdf60b2e0cb272f666a974fb53b",
+          "message": "first commit",
+          "author": "Nick Carter",
+          "date": "2026-10-21T01:54:52Z",
+          "additions": 1,
+          "deletions": 0,
+          "changed_files": 1
+        }
+      ],
+      "recent_totals": {
+        "additions": 1,
+        "deletions": 0,
+        "changed_files": 1
+      },
+      "error": null
+    },
+    {
+      "name": "adai26-team-013",
+      "full_name": "CommunityHackathons/adai26-team-013",
+      "url": "https://github.com/CommunityHackathons/adai26-team-013",
+      "description": "",
+      "private": true,
+      "archived": false,
+      "fork": false,
+      "parent": null,
+      "default_branch": "main",
+      "forks_count": 0,
+      "open_issues_count": 0,
+      "created_at": "2026-10-20T12:49:49Z",
+      "pushed_at": "2026-10-20T12:49:51Z",
+      "branches": [],
+      "commits": [],
+      "recent_totals": {
+        "additions": 0,
+        "deletions": 0,
+        "changed_files": 0
+      },
+      "error": null
+    },
+    {
+      "name": "adai26-team-014",
+      "full_name": "CommunityHackathons/adai26-team-014",
+      "url": "https://github.com/CommunityHackathons/adai26-team-014",
+      "description": "",
+      "private": true,
+      "archived": false,
+      "fork": false,
+      "parent": null,
+      "default_branch": "main",
+      "forks_count": 0,
+      "open_issues_count": 0,
+      "created_at": "2026-10-20T12:50:33Z",
+      "pushed_at": "2026-10-20T12:50:35Z",
+      "branches": [],
+      "commits": [],
+      "recent_totals": {
+        "additions": 0,
+        "deletions": 0,
+        "changed_files": 0
+      },
+      "error": null
+    },
+    {
+      "name": "adai26-team-015",
+      "full_name": "CommunityHackathons/adai26-team-015",
+      "url": "https://github.com/CommunityHackathons/adai26-team-015",
+      "description": "",
+      "private": true,
+      "archived": false,
+      "fork": false,
+      "parent": null,
+      "default_branch": "main",
+      "forks_count": 1,
+      "open_issues_count": 3,
+      "created_at": "2026-10-20T12:51:10Z",
+      "pushed_at": "2026-10-22T12:59:01Z",
+      "branches": [
+        {
+          "name": "dependabot/github_actions/github-actions-c673fd7efc",
+          "sha": "9582290",
+          "protected": false
+        },
+        {
+          "name": "dependabot/pip/python-dependencies-db05bbcbf0",
+          "sha": "59c9b9e",
+          "protected": false
+        },
+        {
+          "name": "event-combined",
+          "sha": "c1eabc7",
+          "protected": false
+        },
+        {
+          "name": "main",
+          "sha": "1059a23",
+          "protected": false
+        }
+      ],
+      "commits": [
+        {
+          "sha": "1059a23",
+          "url": "https://github.com/CommunityHackathons/adai26-team-015/commit/1059a23d24764b8fad3aac14e76b05c76610cc75",
+          "message": "Merge pull request #148 from Itsthewayofyou/release-0.11.0",
+          "author": "Josh McPhail",
+          "date": "2026-10-20T01:22:00Z",
+          "additions": 11,
+          "deletions": 2,
+          "changed_files": 3
+        },
+        {
+          "sha": "49dd38c",
+          "url": "https://github.com/CommunityHackathons/adai26-team-015/commit/49dd38cbd0e1ac088f01729476c091d0cc0d56a2",
+          "message": "Release 0.11.0",
+          "author": "itsthewayofyou",
+          "date": "2026-10-20T01:10:45Z",
+          "additions": 11,
+          "deletions": 2,
+          "changed_files": 3
+        },
+        {
+          "sha": "9eeb126",
+          "url": "https://github.com/CommunityHackathons/adai26-team-015/commit/9eeb1268e20b0eeef2245868d467043fe1d40ff0",
+          "message": "Merge pull request #147 from Itsthewayofyou/worktree-fixes-combined",
+          "author": "Josh McPhail",
+          "date": "2026-10-20T00:59:28Z",
+          "additions": 1720,
+          "deletions": 83,
+          "changed_files": 30
+        },
+        {
+          "sha": "af536c5",
+          "url": "https://github.com/CommunityHackathons/adai26-team-015/commit/af536c5581ee5b8fc2bfad5ea2024fdaa20a2ca1",
+          "message": "Name the version-sensitive IPv6 blocks in the public-address check",
+          "author": "itsthewayofyou",
+          "date": "2026-10-20T00:22:12Z",
+          "additions": 50,
+          "deletions": 12,
+          "changed_files": 5
+        },
+        {
+          "sha": "4738773",
+          "url": "https://github.com/CommunityHackathons/adai26-team-015/commit/4738773f881103b3358101e8b59e5e173772e8e6",
+          "message": "Mark the refused 0.0.0.0 test literal for bandit B104",
+          "author": "itsthewayofyou",
+          "date": "2026-10-20T00:08:40Z",
+          "additions": 2,
+          "deletions": 1,
+          "changed_files": 1
+        },
+        {
+          "sha": "03e5969",
+          "url": "https://github.com/CommunityHackathons/adai26-team-015/commit/03e59697fc28eaae193711dfa505c02e74c1a190",
+          "message": "Keep the post-decision cancel read inside the run loop's failure boundary",
+          "author": "itsthewayofyou",
+          "date": "2026-10-18T00:34:45Z",
+          "additions": 41,
+          "deletions": 16,
+          "changed_files": 2
+        },
+        {
+          "sha": "49b4d81",
+          "url": "https://github.com/CommunityHackathons/adai26-team-015/commit/49b4d815e643150ac0651bf6b8e36702f746d2c8",
+          "message": "Re-check cancellation after each provider decision, before it acts",
+          "author": "itsthewayofyou",
+          "date": "2026-10-18T00:27:57Z",
+          "additions": 118,
+          "deletions": 27,
+          "changed_files": 7
+        },
+        {
+          "sha": "81cf967",
+          "url": "https://github.com/CommunityHackathons/adai26-team-015/commit/81cf967b18083bda5c29a00bc35488ea858543de",
+          "message": "Refuse non-global and named special networks in the public-address check",
+          "author": "itsthewayofyou",
+          "date": "2026-10-18T00:27:56Z",
+          "additions": 71,
+          "deletions": 1,
+          "changed_files": 3
+        },
+        {
+          "sha": "8036c2c",
+          "url": "https://github.com/CommunityHackathons/adai26-team-015/commit/8036c2ca325b645459fb84c5a63ea9bcca9f0507",
+          "message": "Enforce required arguments for every grant; compare constraint values as JSON",
+          "author": "itsthewayofyou",
+          "date": "2026-10-18T00:27:56Z",
+          "additions": 183,
+          "deletions": 21,
+          "changed_files": 5
+        },
+        {
+          "sha": "f421158",
+          "url": "https://github.com/CommunityHackathons/adai26-team-015/commit/f421158cb73a887e3e259cbf748635d922ebe2e8",
+          "message": "Merge branch 'worktree-fix1-insider-replay' into worktree-fixes-combined",
+          "author": "itsthewayofyou",
+          "date": "2026-10-17T03:53:54Z",
+          "additions": 333,
+          "deletions": 8,
+          "changed_files": 8
+        }
+      ],
+      "recent_totals": {
+        "additions": 2540,
+        "deletions": 173,
+        "changed_files": 67
+      },
+      "error": null
+    },
+    {
+      "name": "adai26-team-016",
+      "full_name": "CommunityHackathons/adai26-team-016",
+      "url": "https://github.com/CommunityHackathons/adai26-team-016",
+      "description": "",
+      "private": true,
+      "archived": false,
+      "fork": false,
+      "parent": null,
+      "default_branch": "main",
+      "forks_count": 0,
+      "open_issues_count": 0,
+      "created_at": "2026-10-20T12:51:46Z",
+      "pushed_at": "2026-10-20T12:51:47Z",
+      "branches": [],
+      "commits": [],
+      "recent_totals": {
+        "additions": 0,
+        "deletions": 0,
+        "changed_files": 0
+      },
+      "error": null
+    },
+    {
+      "name": "adai26-team-017",
+      "full_name": "CommunityHackathons/adai26-team-017",
+      "url": "https://github.com/CommunityHackathons/adai26-team-017",
+      "description": "",
+      "private": true,
+      "archived": false,
+      "fork": false,
+      "parent": null,
+      "default_branch": "main",
+      "forks_count": 0,
+      "open_issues_count": 0,
+      "created_at": "2026-10-20T12:52:23Z",
+      "pushed_at": "2026-10-20T12:52:24Z",
+      "branches": [],
+      "commits": [],
+      "recent_totals": {
+        "additions": 0,
+        "deletions": 0,
+        "changed_files": 0
+      },
+      "error": null
+    },
+    {
+      "name": "adai26-team-018",
+      "full_name": "CommunityHackathons/adai26-team-018",
+      "url": "https://github.com/CommunityHackathons/adai26-team-018",
+      "description": "",
+      "private": true,
+      "archived": false,
+      "fork": false,
+      "parent": null,
+      "default_branch": "main",
+      "forks_count": 0,
+      "open_issues_count": 0,
+      "created_at": "2026-10-20T12:52:59Z",
+      "pushed_at": "2026-10-22T13:29:56Z",
+      "branches": [
+        {
+          "name": "main",
+          "sha": "f78eab0",
+          "protected": false
+        }
+      ],
+      "commits": [
+        {
+          "sha": "f78eab0",
+          "url": "https://github.com/CommunityHackathons/adai26-team-018/commit/f78eab082db8d714d2cdfe1cc3df7971e8d0fd98",
+          "message": "feat: updated readme",
+          "author": "itsmeremz",
+          "date": "2026-10-22T13:29:47Z",
+          "additions": 29,
+          "deletions": 8,
+          "changed_files": 2
+        },
+        {
+          "sha": "54b6e28",
+          "url": "https://github.com/CommunityHackathons/adai26-team-018/commit/54b6e287e46c30d2cb5416e42108249fd7ce512c",
+          "message": "feat: added video and ppt",
+          "author": "itsmeremz",
+          "date": "2026-10-22T13:20:45Z",
+          "additions": 867,
+          "deletions": 0,
+          "changed_files": 7
+        },
+        {
+          "sha": "4d49ca4",
+          "url": "https://github.com/CommunityHackathons/adai26-team-018/commit/4d49ca4ad70328f7da4ba694738a2e270d4b3ca6",
+          "message": "fix: issue six of 5173",
+          "author": "itsmeremz",
+          "date": "2026-10-22T12:22:40Z",
+          "additions": 19,
+          "deletions": 5,
+          "changed_files": 4
+        },
+        {
+          "sha": "67c1934",
+          "url": "https://github.com/CommunityHackathons/adai26-team-018/commit/67c19344d587427d0a992fcb24866de8f9e7f473",
+          "message": "fix: issue fix",
+          "author": "ramnath-1998",
+          "date": "2026-10-22T11:44:33Z",
+          "additions": 8,
+          "deletions": 4,
+          "changed_files": 2
+        },
+        {
+          "sha": "d4150f1",
+          "url": "https://github.com/CommunityHackathons/adai26-team-018/commit/d4150f130b8c6b5ef58ed12eaa942167a3470f24",
+          "message": "fix: resarting issue fix",
+          "author": "ramnath-1998",
+          "date": "2026-10-22T11:34:36Z",
+          "additions": 6,
+          "deletions": 0,
+          "changed_files": 3
+        },
+        {
+          "sha": "efcf833",
+          "url": "https://github.com/CommunityHackathons/adai26-team-018/commit/efcf8338a3dadd0493ed45ed17aa3a48e5b5471e",
+          "message": "feat:  Red team, demo script and results brief",
+          "author": "itsmeremz",
+          "date": "2026-10-22T10:41:24Z",
+          "additions": 6421,
+          "deletions": 35,
+          "changed_files": 16
+        },
+        {
+          "sha": "2387b24",
+          "url": "https://github.com/CommunityHackathons/adai26-team-018/commit/2387b246c3d03cab1ca1b58f1dda47793acc2578",
+          "message": "feat: all features in one go",
+          "author": "ramnath-1998",
+          "date": "2026-10-22T09:11:07Z",
+          "additions": 58831,
+          "deletions": 1,
+          "changed_files": 300
+        },
+        {
+          "sha": "5f8a8e4",
+          "url": "https://github.com/CommunityHackathons/adai26-team-018/commit/5f8a8e4b7ee178b8e745eaa7ca2ba3dfe84d7419",
+          "message": "feat: init commit",
+          "author": "ramnath-1998",
+          "date": "2026-10-22T09:02:58Z",
+          "additions": 1,
+          "deletions": 0,
+          "changed_files": 1
+        }
+      ],
+      "recent_totals": {
+        "additions": 66182,
+        "deletions": 53,
+        "changed_files": 335
+      },
+      "error": null
+    },
+    {
+      "name": "adai26-team-019",
+      "full_name": "CommunityHackathons/adai26-team-019",
+      "url": "https://github.com/CommunityHackathons/adai26-team-019",
+      "description": "",
+      "private": true,
+      "archived": false,
+      "fork": false,
+      "parent": null,
+      "default_branch": "main",
+      "forks_count": 0,
+      "open_issues_count": 0,
+      "created_at": "2026-10-20T12:53:51Z",
+      "pushed_at": "2026-10-20T12:53:53Z",
+      "branches": [],
+      "commits": [],
+      "recent_totals": {
+        "additions": 0,
+        "deletions": 0,
+        "changed_files": 0
+      },
+      "error": null
+    },
+    {
+      "name": "adai26-team-020",
+      "full_name": "CommunityHackathons/adai26-team-020",
+      "url": "https://github.com/CommunityHackathons/adai26-team-020",
+      "description": "",
+      "private": true,
+      "archived": false,
+      "fork": false,
+      "parent": null,
+      "default_branch": "main",
+      "forks_count": 0,
+      "open_issues_count": 0,
+      "created_at": "2026-10-20T12:54:28Z",
+      "pushed_at": "2026-10-20T12:54:30Z",
+      "branches": [],
+      "commits": [],
+      "recent_totals": {
+        "additions": 0,
+        "deletions": 0,
+        "changed_files": 0
+      },
+      "error": null
+    },
+    {
+      "name": "adai26-team-021",
+      "full_name": "CommunityHackathons/adai26-team-021",
+      "url": "https://github.com/CommunityHackathons/adai26-team-021",
+      "description": "",
+      "private": true,
+      "archived": false,
+      "fork": false,
+      "parent": null,
+      "default_branch": "main",
+      "forks_count": 0,
+      "open_issues_count": 0,
+      "created_at": "2026-10-20T12:55:04Z",
+      "pushed_at": "2026-10-20T12:55:05Z",
+      "branches": [],
+      "commits": [],
+      "recent_totals": {
+        "additions": 0,
+        "deletions": 0,
+        "changed_files": 0
+      },
+      "error": null
+    },
+    {
+      "name": "adai26-team-022",
+      "full_name": "CommunityHackathons/adai26-team-022",
+      "url": "https://github.com/CommunityHackathons/adai26-team-022",
+      "description": "",
+      "private": true,
+      "archived": false,
+      "fork": false,
+      "parent": null,
+      "default_branch": "main",
+      "forks_count": 0,
+      "open_issues_count": 0,
+      "created_at": "2026-10-20T12:55:40Z",
+      "pushed_at": "2026-10-22T12:07:57Z",
+      "branches": [
+        {
+          "name": "main",
+          "sha": "2b542e3",
+          "protected": false
+        }
+      ],
+      "commits": [
+        {
+          "sha": "2b542e3",
+          "url": "https://github.com/CommunityHackathons/adai26-team-022/commit/2b542e3d4c88cdd544bd45e76fe46fbb902a3e01",
+          "message": "Tripwire: SECURE track project for team-022 (firewall for tool-using agents)",
+          "author": "Manoj Kumar",
+          "date": "2026-10-22T12:07:55Z",
+          "additions": 3646,
+          "deletions": 1,
+          "changed_files": 58
+        },
+        {
+          "sha": "7290b47",
+          "url": "https://github.com/CommunityHackathons/adai26-team-022/commit/7290b47dd5ef842e4bc836c7176dc07709310695",
+          "message": "seed: initialize team-022 repo for SECURE track push",
+          "author": "Manoj Kumar",
+          "date": "2026-10-22T12:06:33Z",
+          "additions": 1,
+          "deletions": 0,
+          "changed_files": 1
+        }
+      ],
+      "recent_totals": {
+        "additions": 3647,
+        "deletions": 1,
+        "changed_files": 59
+      },
+      "error": null
+    },
+    {
+      "name": "adai26-team-023",
+      "full_name": "CommunityHackathons/adai26-team-023",
+      "url": "https://github.com/CommunityHackathons/adai26-team-023",
+      "description": "",
+      "private": true,
+      "archived": false,
+      "fork": false,
+      "parent": null,
+      "default_branch": "main",
+      "forks_count": 0,
+      "open_issues_count": 0,
+      "created_at": "2026-10-20T12:56:15Z",
+      "pushed_at": "2026-10-20T12:56:17Z",
+      "branches": [],
+      "commits": [],
+      "recent_totals": {
+        "additions": 0,
+        "deletions": 0,
+        "changed_files": 0
+      },
+      "error": null
+    },
+    {
+      "name": "adai26-team-024",
+      "full_name": "CommunityHackathons/adai26-team-024",
+      "url": "https://github.com/CommunityHackathons/adai26-team-024",
+      "description": "",
+      "private": true,
+      "archived": false,
+      "fork": false,
+      "parent": null,
+      "default_branch": "main",
+      "forks_count": 0,
+      "open_issues_count": 0,
+      "created_at": "2026-10-20T12:56:51Z",
+      "pushed_at": "2026-10-20T12:56:53Z",
+      "branches": [],
+      "commits": [],
+      "recent_totals": {
+        "additions": 0,
+        "deletions": 0,
+        "changed_files": 0
+      },
+      "error": null
+    },
+    {
+      "name": "adai26-team-025",
+      "full_name": "CommunityHackathons/adai26-team-025",
+      "url": "https://github.com/CommunityHackathons/adai26-team-025",
+      "description": "",
+      "private": true,
+      "archived": false,
+      "fork": false,
+      "parent": null,
+      "default_branch": "main",
+      "forks_count": 0,
+      "open_issues_count": 0,
+      "created_at": "2026-10-22T01:09:56Z",
+      "pushed_at": "2026-10-22T04:22:22Z",
+      "branches": [
+        {
+          "name": "main",
+          "sha": "8081a56",
+          "protected": false
+        }
+      ],
+      "commits": [
+        {
+          "sha": "8081a56",
+          "url": "https://github.com/CommunityHackathons/adai26-team-025/commit/8081a5643bc1a87dc266915875a5a0d9b4edc2e3",
+          "message": "Update README.md",
+          "author": "alex-bajenaru",
+          "date": "2026-10-22T04:22:22Z",
+          "additions": 1,
+          "deletions": 1,
+          "changed_files": 1
+        },
+        {
+          "sha": "074e336",
+          "url": "https://github.com/CommunityHackathons/adai26-team-025/commit/074e336249e33458eab8708e9d1894783ec535c2",
+          "message": "Update README.md",
+          "author": "alex-bajenaru",
+          "date": "2026-10-22T04:22:02Z",
+          "additions": 1,
+          "deletions": 0,
+          "changed_files": 1
+        },
+        {
+          "sha": "7e9ff35",
+          "url": "https://github.com/CommunityHackathons/adai26-team-025/commit/7e9ff35c60965a2dd2cc8092ae18ddd94d39b3a4",
+          "message": "Add the README: team, project and guardrails",
+          "author": "erik koning",
+          "date": "2026-10-22T04:04:19Z",
+          "additions": 83,
+          "deletions": 0,
+          "changed_files": 1
+        }
+      ],
+      "recent_totals": {
+        "additions": 85,
+        "deletions": 1,
+        "changed_files": 3
+      },
+      "error": null
+    }
+  ]
+}
