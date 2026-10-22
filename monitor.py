@@ -97,6 +97,17 @@ def get_commit_stats(api: GitHub, full_name: str, sha: str) -> dict:
         return {"additions": None, "deletions": None, "changed_files": None}
 
 
+def get_commit_date(api: GitHub, full_name: str, sha: str) -> str | None:
+    try:
+        commit = api.get(f"/repos/{full_name}/commits/{urllib.parse.quote(sha, safe='')}")
+        details = commit.get("commit") or {}
+        committer = details.get("committer") or {}
+        author = details.get("author") or {}
+        return committer.get("date") or author.get("date")
+    except RuntimeError:
+        return None
+
+
 def collect_repo(api: GitHub, full_name: str) -> dict:
     try:
         repo = api.get(f"/repos/{full_name}")
@@ -122,9 +133,12 @@ def collect_repo(api: GitHub, full_name: str) -> dict:
             commit_details = branch_commit.get("commit") or {}
             committer = commit_details.get("committer") or {}
             author = commit_details.get("author") or {}
+            branch_date = committer.get("date") or author.get("date")
+            if not branch_date and sha:
+                branch_date = get_commit_date(api, full_name, sha)
             branch_rows.append({
                 "name": branch.get("name", ""), "sha": sha[:7],
-                "date": committer.get("date") or author.get("date"),
+                "date": branch_date,
                 "protected": branch.get("protected", False),
             })
         totals = {
