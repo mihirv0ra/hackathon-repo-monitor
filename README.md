@@ -39,7 +39,7 @@ Grant the workflow the listed Pages and Actions permissions if GitHub prompts fo
 ## Scope and limits
 
 - The dashboard is public. Only use a token for repositories whose activity data you are authorized and comfortable publishing; private repo activity fetched by the workflow will also appear on the public site.
-- A repository counts as recently active only when it is a fork, contains detected source code, and was pushed within the last 14 days. Other repositories are marked yellow and excluded from that count.
+- A repository counts in **Pushed in 14 days** when it has a fork or detected source code and its latest push to any branch was within 14 days. Repositories with neither a fork nor detected code are marked yellow and excluded from that count.
 - GitHub API limits apply. The workflow requests up to 10 recent commits and their stats per repository.
 - “Major activity” is presented as transparent counts (commits, lines added/deleted, files changed), not as an automatic quality score.
 - A branch is considered active when its latest commit is within the last 14 days. This is a configurable display heuristic, not an evaluation of team quality.
