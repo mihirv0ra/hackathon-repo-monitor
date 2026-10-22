@@ -117,9 +117,14 @@ def collect_repo(api: GitHub, full_name: str) -> dict:
             })
         branch_rows = []
         for branch in branches:
-            sha = (branch.get("commit") or {}).get("sha", "")
+            branch_commit = branch.get("commit") or {}
+            sha = branch_commit.get("sha", "")
+            commit_details = branch_commit.get("commit") or {}
+            committer = commit_details.get("committer") or {}
+            author = commit_details.get("author") or {}
             branch_rows.append({
                 "name": branch.get("name", ""), "sha": sha[:7],
+                "date": committer.get("date") or author.get("date"),
                 "protected": branch.get("protected", False),
             })
         totals = {
