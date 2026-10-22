@@ -8,6 +8,7 @@ import datetime as dt
 import json
 import os
 import pathlib
+import subprocess
 import sys
 import time
 import urllib.error
@@ -20,7 +21,27 @@ ROOT = pathlib.Path(__file__).resolve().parent
 
 class GitHub:
     def __init__(self) -> None:
-        self.token = os.environ.get("GITHUB_TOKEN") or os.environ.get("GH_TOKEN")
+        self.token = os.environ.get("MONITOR_TOKEN")
+        if self.token:
+            return
+        # Prefer a valid GitHub CLI login for local work. In some environments
+        # a stale GITHUB_TOKEN is exported globally and would otherwise shadow
+        # the token stored by `gh auth login`. Automation can still use its
+        # token when gh is unavailable or has no logged-in account.
+        env = os.environ.copy()
+        env.pop("GITHUB_TOKEN", None)
+        env.pop("GH_TOKEN", None)
+        try:
+            result = subprocess.run(
+                ["gh", "auth", "token"],
+                check=True,
+                capture_output=True,
+                text=True,
+                env=env,
+            )
+            self.token = result.stdout.strip() or None
+        except (FileNotFoundError, subprocess.CalledProcessError):
+            self.token = os.environ.get("GITHUB_TOKEN") or os.environ.get("GH_TOKEN")
 
     def get(self, path: str):
         headers = {
@@ -44,6 +65,12 @@ class GitHub:
                     if attempt < 3:
                         time.sleep(wait)
                         continue
+                if exc.code == 409:
+                    detail = exc.read().decode("utf-8", "replace")
+                    if '"message":"Git Repository is empty."' in detail:
+                        # GitHub returns 409 rather than an empty array for
+                        # commit listings on repositories with no commits.
+                        return []
                 if exc.code >= 500 and attempt < 3:
                     time.sleep(2**attempt)
                     continue
