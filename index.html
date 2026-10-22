@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Hackathon repository monitor</title>
+  <style>
+    :root { --ink:#17233a; --muted:#69778c; --line:#e3e9f1; --blue:#315eea; --green:#16845b; --amber:#a95e04; --red:#b53e45; --paper:#f5f7fb; }
+    * { box-sizing:border-box } body { margin:0; background:var(--paper); color:var(--ink); font:15px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif }
+    header { padding:34px max(22px,calc((100vw - 1240px)/2)); background:#14223d; color:white }
+    header .eyebrow { color:#9fb5ff; text-transform:uppercase; letter-spacing:.14em; font-size:11px; font-weight:750 }
+    h1 { margin:5px 0; font-size:clamp(26px,4vw,40px); letter-spacing:-.04em } header p { margin:0; color:#c2cbe0 }
+    main { max-width:1240px; padding:24px 22px 60px; margin:auto }
+    .topline { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:12px; margin-bottom:18px; color:var(--muted); font-size:13px }
+    button,select,input { font:inherit } .controls { display:flex; flex-wrap:wrap; gap:8px }
+    input,select { border:1px solid var(--line); border-radius:9px; padding:9px 12px; background:white; color:var(--ink) }
+    .cards { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; margin-bottom:20px }
+    .card,.panel { background:white; border:1px solid var(--line); border-radius:14px; box-shadow:0 2px 8px #1f37600a }
+    .card { padding:17px 18px } .card span { color:var(--muted); font-size:12px; font-weight:650 } .card strong { display:block; font-size:26px; letter-spacing:-.03em; margin-top:4px }
+    .panel { overflow:hidden } .table-wrap { overflow-x:auto }
+    table { border-collapse:collapse; width:100%; min-width:960px } th { text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); background:#fafbfe; padding:12px 14px; border-bottom:1px solid var(--line); white-space:nowrap }
+    td { border-bottom:1px solid #edf0f5; padding:13px 14px; vertical-align:top } tr:last-child td { border:0 }
+    .repo a,.commit a { color:var(--blue); font-weight:700; text-decoration:none } a:hover { text-decoration:underline }
+    .repo small,.muted { display:block; color:var(--muted); font-size:12px; font-weight:400 }
+    .pill { display:inline-block; border-radius:999px; padding:3px 8px; font-size:11px; font-weight:700; background:#edf1fa; color:#44526a; white-space:nowrap }
+    .pill.good { color:var(--green); background:#e7f6ef } .pill.warn { color:var(--amber); background:#fff3df } .pill.bad { color:var(--red); background:#fff0f0 }
+    .branches { max-width:230px } .branch { display:inline-block; margin:0 4px 5px 0; border:1px solid var(--line); border-radius:6px; padding:2px 6px; font-size:11px; color:#45536b; white-space:nowrap }
+    .delta { font-variant-numeric:tabular-nums; white-space:nowrap } .add { color:var(--green); font-weight:700 } .del { color:var(--red); font-weight:700 }
+    details { margin-top:6px } summary { color:var(--blue); cursor:pointer; font-size:12px; font-weight:650 }
+    .commit { padding:7px 0; border-bottom:1px solid #f0f2f6; font-size:12px; min-width:250px } .commit:last-child { border:0 }
+    .empty { padding:40px; text-align:center; color:var(--muted) } .foot { padding:14px 16px; border-top:1px solid var(--line); color:var(--muted); font-size:12px }
+    @media(max-width:800px) { .cards { grid-template-columns:repeat(2,1fr) } header { padding-top:25px;padding-bottom:25px } }
+    @media(max-width:430px) { .cards { grid-template-columns:1fr 1fr;gap:8px }.card { padding:13px } }
+  </style>
+</head>
+<body>
+<header><div class="eyebrow">Mentor / judge view</div><h1>Hackathon repository monitor</h1><p>Repository activity across the 25 team submissions</p></header>
+<main>
+  <div class="topline"><span id="refresh">Loading repository snapshot…</span><div class="controls"><input id="search" type="search" placeholder="Find a team…" aria-label="Find a team"><select id="activity"><option value="all">All activity</option><option value="active">Pushed in 14 days</option><option value="branches">Has branches</option><option value="errors">Needs attention</option></select></div></div>
+  <section class="cards" id="cards"></section>
+  <section class="panel"><div class="table-wrap"><table><thead><tr><th>Team</th><th>Latest push</th><th>Branches</th><th>Recent code change*</th><th>Forks / source</th><th>Recent commits</th></tr></thead><tbody id="rows"></tbody></table></div><div class="foot">* Totals cover up to 10 latest commits. Green = additions; red = deletions. Activity counts are signals for review, not scores or measures of code quality.</div></section>
+</main>
+<script>
+const $ = s => document.querySelector(s);
+const fmtDate = s => s ? new Intl.DateTimeFormat(undefined,{dateStyle:'medium',timeStyle:'short'}).format(new Date(s)) : '—';
+const ageDays = s => s ? (Date.now()-new Date(s).getTime())/86400000 : Infinity;
+const short = n => Number(n||0).toLocaleString();
+function render(data) {
+  const repos=data.repositories||[];
+  const active=repos.filter(r=>!r.error&&ageDays(r.pushed_at)<=14).length;
+  const branches=repos.reduce((n,r)=>n+(r.branches?.length||0),0);
+  const additions=repos.reduce((n,r)=>n+(r.recent_totals?.additions||0),0);
+  const errs=repos.filter(r=>r.error).length;
+  $('#refresh').textContent=`Last refresh ${fmtDate(data.generated_at)} · ${repos.length} repositories`;
+  $('#cards').innerHTML=[['Teams tracked',repos.length],['Pushed in 14 days',active],['Branches found',short(branches)],['Lines added in latest commits',short(additions)]].map(([l,v])=>`<div class="card"><span>${l}</span><strong>${v}</strong></div>`).join('');
+  function update() {
+    const q=$('#search').value.toLowerCase().trim(), filter=$('#activity').value;
+    const filtered=repos.filter(r=>{
+      const match=!q||r.name.toLowerCase().includes(q)||r.full_name.toLowerCase().includes(q);
+      const byFilter=filter==='all'||(filter==='active'&&!r.error&&ageDays(r.pushed_at)<=14)||(filter==='branches'&&(r.branches?.length||0)>0)||(filter==='errors'&&r.error);
+      return match&&byFilter;
+    });
+    $('#rows').innerHTML=filtered.length?filtered.map(r=>{
+      const branchHtml=(r.branches||[]).slice(0,8).map(b=>`<span class="branch" title="${fmtDate(b.date)}">${esc(b.name)}</span>`).join('')||'<span class="muted">No branches found</span>';
+      const extra=(r.branches||[]).length>8?`<span class="muted">+${r.branches.length-8} more</span>`:'';
+      const commits=(r.commits||[]).map(c=>`<div class="commit"><a href="${esc(c.url)}" target="_blank" rel="noopener">${esc(c.sha)}</a> ${esc(c.message)}<span class="muted">${esc(c.author)} · ${fmtDate(c.date)} · <span class="add">+${short(c.additions)}</span> <span class="del">−${short(c.deletions)}</span> · ${short(c.changed_files)} files</span></div>`).join('')||'<span class="muted">No recent commits</span>';
+      let state=r.error?`<span class="pill bad">Unavailable</span><small>${esc(r.error)}</small>`:`<a href="${esc(r.url)}">${esc(r.name)}</a><small>${r.archived?'Archived · ':''}${esc(r.description||r.default_branch||'')}</small>`;
+      const pushed=r.error?'<span class="pill bad">Check access</span>':ageDays(r.pushed_at)<=14?`<span class="pill good">${fmtDate(r.pushed_at)}</span>`:`<span class="pill warn">${fmtDate(r.pushed_at)}</span>`;
+      const fork=r.error?'—':r.fork?`<span class="pill">Fork of ${esc(r.parent||'unknown')}</span>`:`${short(r.forks_count)} repo forks`;
+      return `<tr><td class="repo">${state}</td><td>${pushed}</td><td class="branches">${branchHtml}${extra}</td><td class="delta">${r.error?'—':`<span class="add">+${short(r.recent_totals?.additions)}</span><br><span class="del">−${short(r.recent_totals?.deletions)}</span><small class="muted">${short(r.recent_totals?.changed_files)} file changes</small>`}</td><td>${fork}</td><td><details><summary>${(r.commits||[]).length} commits</summary>${commits}</details></td></tr>`;
+    }).join(''):'<tr><td colspan="6" class="empty">No teams match these filters.</td></tr>';
+  }
+  $('#search').addEventListener('input',update); $('#activity').addEventListener('change',update); update();
+}
+function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+fetch('./data.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw Error('No snapshot available');return r.json()}).then(render).catch(e=>{$('#refresh').textContent=e.message;$('#rows').innerHTML='<tr><td colspan="6" class="empty">Run monitor.py to fetch the first snapshot.</td></tr>'});
+</script>
+</body></html>

@@ -1,0 +1,144 @@
+#!/usr/bin/env python3
+"""Fetch public GitHub repository activity and build a static dashboard."""
+
+from __future__ import annotations
+
+import argparse
+import datetime as dt
+import json
+import os
+import pathlib
+import sys
+import time
+import urllib.error
+import urllib.parse
+import urllib.request
+
+API = "https://api.github.com"
+ROOT = pathlib.Path(__file__).resolve().parent
+
+
+class GitHub:
+    def __init__(self) -> None:
+        self.token = os.environ.get("GITHUB_TOKEN") or os.environ.get("GH_TOKEN")
+
+    def get(self, path: str):
+        headers = {
+            "Accept": "application/vnd.github+json",
+            "X-GitHub-Api-Version": "2022-11-28",
+            "User-Agent": "hackathon-repo-monitor",
+        }
+        if self.token:
+            headers["Authorization"] = f"Bearer {self.token}"
+        req = urllib.request.Request(API + path, headers=headers)
+        for attempt in range(4):
+            try:
+                with urllib.request.urlopen(req, timeout=25) as response:
+                    return json.load(response)
+            except urllib.error.HTTPError as exc:
+                if exc.code == 404:
+                    raise RuntimeError("not found or not public") from exc
+                if exc.code in (403, 429) and exc.headers.get("X-RateLimit-Remaining") == "0":
+                    reset = int(exc.headers.get("X-RateLimit-Reset", "0"))
+                    wait = max(1, min(reset - int(time.time()), 60))
+                    if attempt < 3:
+                        time.sleep(wait)
+                        continue
+                if exc.code >= 500 and attempt < 3:
+                    time.sleep(2**attempt)
+                    continue
+                detail = exc.read().decode("utf-8", "replace")[:300]
+                raise RuntimeError(f"GitHub API returned {exc.code}: {detail}") from exc
+            except (urllib.error.URLError, TimeoutError) as exc:
+                if attempt < 3:
+                    time.sleep(2**attempt)
+                    continue
+                raise RuntimeError(f"GitHub API request failed: {exc}") from exc
+
+
+def get_commit_stats(api: GitHub, full_name: str, sha: str) -> dict:
+    try:
+        commit = api.get(f"/repos/{full_name}/commits/{urllib.parse.quote(sha, safe='')}")
+        stats = commit.get("stats") or {}
+        files = commit.get("files") or []
+        return {
+            "additions": stats.get("additions", 0),
+            "deletions": stats.get("deletions", 0),
+            "changed_files": len(files),
+        }
+    except RuntimeError:
+        return {"additions": None, "deletions": None, "changed_files": None}
+
+
+def collect_repo(api: GitHub, full_name: str) -> dict:
+    try:
+        repo = api.get(f"/repos/{full_name}")
+        branches = api.get(f"/repos/{full_name}/branches?per_page=100")
+        commits = api.get(f"/repos/{full_name}/commits?per_page=10")
+        history = []
+        for commit in commits:
+            item = commit.get("commit", {})
+            author = item.get("author") or {}
+            stats = get_commit_stats(api, full_name, commit.get("sha", ""))
+            history.append({
+                "sha": commit.get("sha", "")[:7],
+                "url": commit.get("html_url", ""),
+                "message": (item.get("message") or "").splitlines()[0][:180],
+                "author": (author.get("name") or "Unknown")[:80],
+                "date": author.get("date"),
+                **stats,
+            })
+        branch_rows = []
+        for branch in branches:
+            sha = (branch.get("commit") or {}).get("sha", "")
+            branch_rows.append({
+                "name": branch.get("name", ""), "sha": sha[:7],
+                "protected": branch.get("protected", False),
+            })
+        totals = {
+            key: sum(c[key] or 0 for c in history)
+            for key in ("additions", "deletions", "changed_files")
+        }
+        return {
+            "name": full_name.split("/")[-1], "full_name": full_name,
+            "url": repo.get("html_url", f"https://github.com/{full_name}"),
+            "description": repo.get("description") or "",
+            "private": repo.get("private", False), "archived": repo.get("archived", False),
+            "fork": repo.get("fork", False),
+            "parent": (repo.get("parent") or {}).get("full_name"),
+            "default_branch": repo.get("default_branch"),
+            "forks_count": repo.get("forks_count", 0),
+            "open_issues_count": repo.get("open_issues_count", 0),
+            "created_at": repo.get("created_at"), "pushed_at": repo.get("pushed_at"),
+            "branches": branch_rows, "commits": history, "recent_totals": totals,
+            "error": None,
+        }
+    except RuntimeError as exc:
+        return {
+            "name": full_name.split("/")[-1], "full_name": full_name,
+            "url": f"https://github.com/{full_name}", "branches": [], "commits": [],
+            "recent_totals": {"additions": 0, "deletions": 0, "changed_files": 0},
+            "error": str(exc),
+        }
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--output-dir", default="site", help="Directory for dashboard files")
+    parser.add_argument("--config", default=str(ROOT / "repositories.json"))
+    args = parser.parse_args()
+    repositories = json.loads(pathlib.Path(args.config).read_text())
+    api = GitHub()
+    rows = [collect_repo(api, name) for name in repositories]
+    generated = dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds")
+    output = pathlib.Path(args.output_dir)
+    output.mkdir(parents=True, exist_ok=True)
+    (output / "data.json").write_text(json.dumps({"generated_at": generated, "repositories": rows}, indent=2) + "\n")
+    (output / "index.html").write_text((ROOT / "index.html").read_text())
+    failed = sum(bool(row.get("error")) for row in rows)
+    print(f"Wrote {len(rows)} repositories to {output} ({failed} unavailable)")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
