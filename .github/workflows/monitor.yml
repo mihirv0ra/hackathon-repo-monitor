@@ -30,9 +30,16 @@ jobs:
         with:
           python-version: '3.x'
       - name: Collect repository activity
-        run: python monitor.py --output-dir site
+        run: python monitor.py --output-dir site --context-output /tmp/repository-context.json
         env:
           MONITOR_TOKEN: ${{ secrets.MONITOR_TOKEN || secrets.GITHUB_TOKEN }}
+      - name: Save project research context
+        uses: actions/upload-artifact@v4
+        with:
+          name: project-context-${{ github.run_id }}
+          path: /tmp/repository-context.json
+          if-no-files-found: error
+          retention-days: 7
       - name: Configure Pages
         uses: actions/configure-pages@v5
       - name: Upload site artifact

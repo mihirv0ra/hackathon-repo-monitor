@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import base64
 import datetime as dt
 import json
 import os
@@ -108,9 +109,35 @@ def get_commit_date(api: GitHub, full_name: str, sha: str) -> str | None:
         return None
 
 
-def collect_repo(api: GitHub, full_name: str) -> dict:
+def collect_repo(api: GitHub, full_name: str) -> tuple[dict, dict]:
     try:
         repo = api.get(f"/repos/{full_name}")
+        languages = {}
+        try:
+            languages = api.get(f"/repos/{full_name}/languages") or {}
+        except RuntimeError:
+            pass
+        readme_text = None
+        try:
+            readme = api.get(f"/repos/{full_name}/readme")
+            if readme.get("encoding") == "base64":
+                raw = base64.b64decode(readme.get("content", ""))
+                readme_text = raw.decode("utf-8", "replace")[:12000]
+        except (RuntimeError, ValueError):
+            pass
+        root_files = []
+        if repo.get("default_branch"):
+            try:
+                listing = api.get(
+                    f"/repos/{full_name}/contents?ref={urllib.parse.quote(repo['default_branch'], safe='')}"
+                )
+                if isinstance(listing, list):
+                    root_files = [
+                        {"name": entry.get("name", ""), "type": entry.get("type", "")}
+                        for entry in listing[:100]
+                    ]
+            except RuntimeError:
+                pass
         branches = api.get(f"/repos/{full_name}/branches?per_page=100")
         commits = api.get(f"/repos/{full_name}/commits?per_page=10")
         history = []
@@ -145,7 +172,7 @@ def collect_repo(api: GitHub, full_name: str) -> dict:
             key: sum(c[key] or 0 for c in history)
             for key in ("additions", "deletions", "changed_files")
         }
-        return {
+        row = {
             "name": full_name.split("/")[-1], "full_name": full_name,
             "url": repo.get("html_url", f"https://github.com/{full_name}"),
             "description": repo.get("description") or "",
@@ -157,30 +184,52 @@ def collect_repo(api: GitHub, full_name: str) -> dict:
             "open_issues_count": repo.get("open_issues_count", 0),
             "created_at": repo.get("created_at"), "pushed_at": repo.get("pushed_at"),
             "branches": branch_rows, "commits": history, "recent_totals": totals,
+            "has_code": bool(languages),
             "error": None,
         }
+        context = {
+            "full_name": full_name,
+            "description": repo.get("description") or "",
+            "topics": repo.get("topics") or [],
+            "languages_bytes": languages,
+            "readme_excerpt": readme_text,
+            "root_files": root_files,
+            "recent_commits": [
+                {"date": c.get("date"), "message": c.get("message", "")}
+                for c in history
+            ],
+        }
+        return row, context
     except RuntimeError as exc:
-        return {
+        row = {
             "name": full_name.split("/")[-1], "full_name": full_name,
             "url": f"https://github.com/{full_name}", "branches": [], "commits": [],
             "recent_totals": {"additions": 0, "deletions": 0, "changed_files": 0},
-            "error": str(exc),
+            "has_code": False, "error": str(exc),
         }
+        return row, {"full_name": full_name, "error": str(exc)}
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output-dir", default="site", help="Directory for dashboard files")
+    parser.add_argument("--context-output", help="Optional JSON path for project research context (kept outside the Pages site)")
     parser.add_argument("--config", default=str(ROOT / "repositories.json"))
     args = parser.parse_args()
     repositories = json.loads(pathlib.Path(args.config).read_text())
     api = GitHub()
-    rows = [collect_repo(api, name) for name in repositories]
+    results = [collect_repo(api, name) for name in repositories]
+    rows = [row for row, _ in results]
+    contexts = [context for _, context in results]
     generated = dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds")
     output = pathlib.Path(args.output_dir)
     output.mkdir(parents=True, exist_ok=True)
     (output / "data.json").write_text(json.dumps({"generated_at": generated, "repositories": rows}, indent=2) + "\n")
     (output / "index.html").write_text((ROOT / "index.html").read_text())
+    if args.context_output:
+        context_path = pathlib.Path(args.context_output)
+        context_path.parent.mkdir(parents=True, exist_ok=True)
+        context_path.write_text(json.dumps({"generated_at": generated, "repositories": contexts}, indent=2) + "\n")
     failed = sum(bool(row.get("error")) for row in rows)
     print(f"Wrote {len(rows)} repositories to {output} ({failed} unavailable)")
     return 0
