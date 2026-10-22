@@ -15,7 +15,7 @@
     .topline { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:12px; margin-bottom:18px; color:var(--muted); font-size:13px }
     button,select,input { font:inherit } .controls { display:flex; flex-wrap:wrap; gap:8px }
     input,select { border:1px solid var(--line); border-radius:9px; padding:9px 12px; background:white; color:var(--ink) }
-    .cards { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; margin-bottom:20px }
+    .cards { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:12px; margin-bottom:20px }
     .card,.panel { background:white; border:1px solid var(--line); border-radius:14px; box-shadow:0 2px 8px #1f37600a }
     .card { padding:17px 18px } .card span { color:var(--muted); font-size:12px; font-weight:650 } .card strong { display:block; font-size:26px; letter-spacing:-.03em; margin-top:4px }
     .panel { overflow:hidden } .table-wrap { overflow-x:auto }
@@ -39,7 +39,7 @@
 <main>
   <div class="topline"><span id="refresh">Loading repository snapshot…</span><div class="controls"><input id="search" type="search" placeholder="Find a team…" aria-label="Find a team"><select id="activity"><option value="all">All activity</option><option value="active">Pushed in 14 days</option><option value="branches">Has branches</option><option value="errors">Needs attention</option></select></div></div>
   <section class="cards" id="cards"></section>
-  <section class="panel"><div class="table-wrap"><table><thead><tr><th>Team</th><th>Latest push</th><th>Branches</th><th>Recent code change*</th><th>Fork status</th><th>Recent commits</th></tr></thead><tbody id="rows"></tbody></table></div><div class="foot">* Totals cover up to 10 latest commits. Green = additions; red = deletions. Activity counts are signals for review, not scores or measures of code quality.</div></section>
+  <section class="panel"><div class="table-wrap"><table><thead><tr><th>Team</th><th>Latest push</th><th>Branches</th><th>Recent changes*</th><th>Fork status</th><th>Recent commits</th></tr></thead><tbody id="rows"></tbody></table></div><div class="foot">* Totals cover up to 10 latest commits. Green = additions; red = deletions. Activity counts are signals for review, not scores or measures of code quality.</div></section>
 </main>
 <script>
 const $ = s => document.querySelector(s);
@@ -48,20 +48,22 @@ const ageDays = s => s ? (Date.now()-new Date(s).getTime())/86400000 : Infinity;
 const short = n => Number(n||0).toLocaleString();
 function render(data) {
   const repos=data.repositories||[];
-  const isActive=r=>!r.error&&(r.fork||r.has_code)&&ageDays(r.pushed_at)<=14;
+  const hasCommits=r=>(r.commits||[]).length>0;
+  const isActive=r=>!r.error&&(r.fork||hasCommits(r))&&ageDays(r.pushed_at)<=14;
   const active=repos.filter(isActive).length;
-  const branches=repos.reduce((n,r)=>n+(r.branches?.length||0),0);
+  const reposWithBranches=repos.filter(r=>(r.branches?.length||0)>0).length;
+  const reposWithCommits=repos.filter(hasCommits).length;
   const additions=repos.reduce((n,r)=>n+(r.recent_totals?.additions||0),0);
-  const needsAttention=repos.filter(r=>r.error||(!r.fork&&!r.has_code)).length;
+  const needsAttention=repos.filter(r=>r.error||(!r.fork&&!hasCommits(r))).length;
   const teams=new Set(repos.map(r=>r.name.match(/^(.*-team-\d{3})(?:-\d{2})?$/)?.[1]||r.full_name));
   $('#subtitle').textContent=`Repository activity across ${teams.size} teams · ${repos.length} repositories`;
   $('#refresh').textContent=`Last refresh ${fmtDate(data.generated_at)} · ${repos.length} repositories · ${needsAttention} flagged`;
-  $('#cards').innerHTML=[['Teams tracked',teams.size],['Pushed in 14 days',active],['Branches found',short(branches)],['Lines added in latest commits',short(additions)]].map(([l,v])=>`<div class="card"><span>${l}</span><strong>${v}</strong></div>`).join('');
+  $('#cards').innerHTML=[['Teams tracked',teams.size],['Pushed in 14 days',active],['Repositories with branches',reposWithBranches],['Repositories with commits',reposWithCommits],['Lines added in latest commits',short(additions)]].map(([l,v])=>`<div class="card"><span>${l}</span><strong>${v}</strong></div>`).join('');
   function update() {
     const q=$('#search').value.toLowerCase().trim(), filter=$('#activity').value;
     const filtered=repos.filter(r=>{
       const match=!q||r.name.toLowerCase().includes(q)||r.full_name.toLowerCase().includes(q);
-      const byFilter=filter==='all'||(filter==='active'&&isActive(r))||(filter==='branches'&&(r.branches?.length||0)>0)||(filter==='errors'&&(r.error||(!r.fork&&!r.has_code)));
+      const byFilter=filter==='all'||(filter==='active'&&isActive(r))||(filter==='branches'&&(r.branches?.length||0)>0)||(filter==='errors'&&(r.error||(!r.fork&&!hasCommits(r))));
       return match&&byFilter;
     });
     $('#rows').innerHTML=filtered.length?filtered.map(r=>{
@@ -69,9 +71,9 @@ function render(data) {
       const extra=(r.branches||[]).length>8?`<span class="muted">+${r.branches.length-8} more</span>`:'';
       const commits=(r.commits||[]).map(c=>`<div class="commit"><a href="${esc(c.url)}" target="_blank" rel="noopener">${esc(c.sha)}</a> ${esc(c.message)}<span class="muted">${esc(c.author)} · ${fmtDate(c.date)} · <span class="add">+${short(c.additions)}</span> <span class="del">−${short(c.deletions)}</span> · ${short(c.changed_files)} files</span></div>`).join('')||'<span class="muted">No recent commits</span>';
       let state=r.error?`<span class="pill bad">Unavailable</span><small>${esc(r.error)}</small>`:`<a href="${esc(r.url)}">${esc(r.name)}</a><small>${r.archived?'Archived · ':''}${esc(r.description||r.default_branch||'')}</small>`;
-      const hasNoActivity=!r.fork&&!r.has_code;
-      const pushed=r.error?'<span class="pill bad">Check access</span>':hasNoActivity?`<span class="pill warn">No fork or code</span><small class="muted">Latest push ${fmtDate(r.pushed_at)}</small>`:ageDays(r.pushed_at)<=14?`<span class="pill good">${fmtDate(r.pushed_at)}</span>`:`<span class="pill warn">${fmtDate(r.pushed_at)}</span>`;
-      const fork=r.error?'—':`${r.fork?`<span class="pill good">Fork of ${esc(r.parent||'unknown')}</span>`:r.has_code?'<span class="pill good">Not a fork · code present</span>':'<span class="pill warn">No fork or code</span>'}<small class="muted">${short(r.forks_count)} forks by others</small>`;
+      const hasNoActivity=!r.fork&&!hasCommits(r);
+      const pushed=r.error?'<span class="pill bad">Check access</span>':hasNoActivity?`<span class="pill warn">No fork or commits</span><small class="muted">Latest push ${fmtDate(r.pushed_at)}</small>`:ageDays(r.pushed_at)<=14?`<span class="pill good">${fmtDate(r.pushed_at)}</span>`:`<span class="pill warn">${fmtDate(r.pushed_at)}</span>`;
+      const fork=r.error?'—':`${r.fork?`<span class="pill good">Fork of ${esc(r.parent||'unknown')}</span>`:'<span class="pill">Not a fork</span>'}<small class="muted">${short(r.forks_count)} forks by others</small>`;
       return `<tr><td class="repo">${state}</td><td>${pushed}</td><td class="branches">${branchHtml}${extra}</td><td class="delta">${r.error?'—':`<span class="add">+${short(r.recent_totals?.additions)}</span><br><span class="del">−${short(r.recent_totals?.deletions)}</span><small class="muted">${short(r.recent_totals?.changed_files)} file changes</small>`}</td><td>${fork}</td><td><details><summary>${(r.commits||[]).length} commits</summary>${commits}</details></td></tr>`;
     }).join(''):'<tr><td colspan="6" class="empty">No teams match these filters.</td></tr>';
   }
